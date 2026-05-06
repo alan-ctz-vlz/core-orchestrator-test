@@ -4,6 +4,9 @@ on: [push]
 jobs:
   health-check:
     runs-on: self-hosted
+    # Aquí le decimos: "Usa esta imagen para ejecutar los pasos"
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:8.0
     steps:
       - name: Clonar código
         uses: actions/checkout@v4
@@ -11,7 +14,6 @@ jobs:
       - name: Reporte de Hardware y Software
         run: |
           echo "--- REPORTE DE SISTEMA ---"
-          echo "Usuario: $USER"
           echo "Arquitectura:" && uname -m
-          echo "Estado de .NET:" && dotnet --version
-          echo "Espacio en SSD:" && df -h /
+          echo "Versión de .NET en el contenedor:" && dotnet --version
+          echo "Espacio en el SSD de la Raspberry:" && df -h /
