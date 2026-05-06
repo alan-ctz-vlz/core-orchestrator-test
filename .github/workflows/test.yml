@@ -4,10 +4,18 @@ on: [push]
 jobs:
   health-check:
     runs-on: self-hosted
+    defaults:
+      run:
+        working-directory: /data
     # Quitamos la sección 'container' para evitar el conflicto de Node.js
     steps:
       - name: Clonar código
         uses: actions/checkout@v4
+        with:
+          path: . # Clona directamente en la raíz de /data
+
+      - name: Listar archivos para verificar
+        run: ls -la
 
       - name: Reporte de Hardware y Software
         run: |
