@@ -11,11 +11,15 @@ jobs:
     steps:
       - name: Clonar código
         uses: actions/checkout@v4
-        with:
-          path: . # Clona directamente en la raíz de /data
 
-      - name: Listar archivos para verificar
-        run: ls -la
+      - name: ¿Dónde estoy y qué veo?
+        run: |
+          echo "Mi ruta actual es:"
+          pwd
+          echo "Los archivos en esta carpeta son:"
+          ls -la
+          echo "Escribiendo archivo de prueba..."
+          echo "Hola Alan desde el Runner" > prueba_conexion.txt
 
       - name: Reporte de Hardware y Software
         run: |
