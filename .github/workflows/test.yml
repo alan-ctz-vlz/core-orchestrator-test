@@ -4,9 +4,7 @@ on: [push]
 jobs:
   health-check:
     runs-on: self-hosted
-    # Aquí le decimos: "Usa esta imagen para ejecutar los pasos"
-    container:
-      image: mcr.microsoft.com/dotnet/sdk:8.0
+    # Quitamos la sección 'container' para evitar el conflicto de Node.js
     steps:
       - name: Clonar código
         uses: actions/checkout@v4
@@ -14,6 +12,10 @@ jobs:
       - name: Reporte de Hardware y Software
         run: |
           echo "--- REPORTE DE SISTEMA ---"
-          echo "Arquitectura:" && uname -m
-          echo "Versión de .NET en el contenedor:" && dotnet --version
-          echo "Espacio en el SSD de la Raspberry:" && df -h /
+          echo "Arquitectura de la Raspberry:" && uname -m
+          echo "Espacio en el SSD:" && df -h /
+          
+      - name: Probar Docker y .NET
+        run: |
+          echo "Verificando que el Runner puede lanzar contenedores:"
+          docker run --rm mcr.microsoft.com/dotnet/sdk:8.0 dotnet --version
