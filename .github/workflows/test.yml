@@ -1,0 +1,17 @@
+name: Check CoreOrchestrator
+on: [push]
+
+jobs:
+  health-check:
+    runs-on: self-hosted
+    steps:
+      - name: Clonar código
+        uses: actions/checkout@v4
+
+      - name: Reporte de Hardware y Software
+        run: |
+          echo "--- REPORTE DE SISTEMA ---"
+          echo "Usuario: $USER"
+          echo "Arquitectura:" && uname -m
+          echo "Estado de .NET:" && dotnet --version
+          echo "Espacio en SSD:" && df -h /
