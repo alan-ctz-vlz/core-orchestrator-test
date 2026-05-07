@@ -18,10 +18,15 @@ jobs:
           echo "Archivos actualmente en el SSD (~/proyectos/core-orchestrator/app):"
           ls -la /data
 
-      - name: 3. Reporte de Hardware y Docker
+      - name: 3. Construir y Ejecutar el Contenedor
         run: |
-          echo "--- Reporte de Sistema ---"
-          echo "Arquitectura:" && uname -m
-          echo "Espacio en Disco:" && df -h /data
-          echo "Verificando .NET 8 vía Docker:"
-          docker run --rm mcr.microsoft.com/dotnet/sdk:8.0 dotnet --version
+          cd /data
+          echo "Borrando versiones anteriores..."
+          docker stop core-app || true
+          docker rm core-app || true
+          
+          echo "Construyendo la nueva imagen..."
+          docker build -t core-orchestrator-img .
+          
+          echo "Lanzando el contenedor en segundo plano..."
+          docker run -d --name core-app core-orchestrator-img
